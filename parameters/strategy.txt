@@ -1,0 +1,27 @@
+CACHE:                  True
+CODON_SIZE:             100000
+CROSSOVER:              subtree
+CROSSOVER_PROBABILITY:  0.75
+DATASET_TRAIN:          None
+DATASET_TEST:           None
+DEBUG:                  False
+ELITE_SIZE: 			None
+ERROR_METRIC:           None
+EXPERIMENT_NAME: 		Strategy
+GENERATIONS:            10
+MAX_GENOME_LENGTH:      100
+GRAMMAR_FILE:           strategy.bnf
+INITIALISATION:         PI_grow
+INVALID_SELECTION:      False
+MAX_INIT_TREE_DEPTH:    10
+MAX_TREE_DEPTH:         17
+MUTATION:               subtree
+MUTATION_EVENTS: 		1
+POPULATION_SIZE:        5
+FITNESS_FUNCTION:       simple_strategy, minimise_nodes
+REPLACEMENT:            nsga2_replacement
+SAVE_PLOTS: 			True
+SELECTION:              nsga2_selection
+TOURNAMENT_SIZE:        2
+VERBOSE: 				True
+MUTATE_DUPLICATES:      True

@@ -1,0 +1,44 @@
+<strategy> ::= <action> | <action> <strategy>
+<action> ::= 
+	<int> <cond_action>
+| 	<int> <uncond_action>
+<cond_action> ::= 
+	"IF" <bool_expr> "THEN" <strategy>
+|	"IF" <bool_expr> "THEN" <strategy> "ELSE" <strategy>
+<uncond_action> ::=
+	"select-previous"
+| 	"select-random"
+| 	"select-random" <mod>
+| 	"select-random" <filter> <action_type>
+| 	"select-random" <mod> <filter> <action_type>
+| 	"select-random" <relation>
+| 	"select-random" <mod> <relation>
+<bool_expr> ::= 
+	"(" "NOT" <bool_expr> ")"
+| 	"(" <bool_expr> <bool_opr> <bool_expr> ")"
+| 	"(" <int_expr> <int_opr> <int_expr> ")"
+|	"state-changed"
+| 	"any-exist"
+| 	"any-exist" <mod>
+| 	"any-exist" <filter> <action_type>
+| 	"any-exist" <mod> <filter> <action_type>
+|	"previous-exist"
+|	"previous-exist" <filter> <action_type>
+| 	"sut" <filter> <sut>
+| 	<bool>
+<int_expr> ::=
+	"n-actions"
+|	"n-actions" <mod>
+|	"n-actions" <filter> <action_type>
+|	"n-actions" <mod> <filter> <action_type>
+|	<int>
+<int> ::= <digit> | <digit> <int>
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<bool> ::= "TRUE" | "FALSE"
+<bool_opr> ::= "AND" | "OR" | "XOR" | "EQUALS"
+<int_opr> ::= ">" | ">=" | "<" | "<=" | "==" | "!="
+<filter> ::= "of-type" | "not-of-type"
+<action_type> ::= "click-action" | "type-action" | "drag-action" | "hit-key-action" | "input-action" | "form-field-action" | "form-submit-action"
+<mod> ::= "most-visited" | "least-visited" | "visited" | "unvisited"
+<relation> ::= "sibling" | "child" | "sibling-or-child"
+<sut> ::= "windows" | "linux" | "ios" | "android" | "web"
