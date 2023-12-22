@@ -1,0 +1,50 @@
+<strategy> ::= <int> <action> | <int> <action> <strategy>
+<action> ::= 
+	"IF" <bool_expr> "THEN" <strategy>
+|	"IF" <bool_expr> "THEN" <strategy> "ELSE" <strategy>
+|	"repeat-previous"
+|	"select-previous"
+| 	"select-previous" <visit_status>
+| 	"select-previous" <filter> <action_type>
+| 	"select-previous" <visit_status> <filter> <action_type>
+| 	"select-random"
+| 	"select-random" <visit_status>
+| 	"select-random" <filter> <action_type>
+| 	"select-random" <visit_status> <filter> <action_type>
+| 	"select-random" <relation>
+| 	"select-random" <visit_status> <relation>
+<bool_expr> ::= 
+	"(" "NOT" <bool_expr> ")"
+| 	"(" <bool_expr> <bool_opr> <bool_expr> ")"
+| 	"(" <int_expr> <int_opr> <int_expr> ")"
+|	"state-changed"
+| 	"sut-is" <filter> <sut>
+| 	"any-exist"
+| 	"any-exist" <visit_status>
+| 	"any-exist" <filter> <action_type>
+| 	"any-exist" <visit_status> <filter> <action_type>
+|	"previous-exist"
+|	"previous-exist" <visit_status>
+|	"previous-exist" <filter> <action_type>
+|	"previous-exist" <visit_status> <filter> <action_type>
+| 	<bool>
+<int_expr> ::=
+	"n-actions"
+|	"n-actions" <visit_status>
+|	"n-actions" <filter> <action_type>
+|	"n-actions" <visit_status> <filter> <action_type>
+|	"n-previous"
+|	"n-previous" <visit_status>
+|	"n-previous" <filter> <action_type>
+|	"n-previous" <visit_status> <filter> <action_type>
+|	<int>
+<int> ::= <digit> | <digit><digit> | <digit><digit><digit>
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<bool> ::= "TRUE" | "FALSE"
+<bool_opr> ::= "AND" | "OR" | "XOR" | "EQUALS"
+<int_opr> ::= ">" | ">=" | "<" | "<=" | "==" | "!="
+<filter> ::= "of-type" | "not-of-type"
+<action_type> ::= "click-action" | "type-action" | "drag-action" | "hit-key-action" | "form-input-action" | "form-field-action" | "form-submit-action"
+<visit_status> ::= "most-visited" | "least-visited" | "unvisited" | "visited" <int> |  "visited-over" <int> | "visited-under <int>
+<relation> ::= "sibling" | "child" | "sibling-or-child"
+<sut> ::= "windows" | "linux" | "ios" | "android" | "web"
