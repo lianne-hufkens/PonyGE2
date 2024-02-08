@@ -2,6 +2,7 @@ from fitness.base_ff_classes.base_ff import base_ff
 
 from algorithm.parameters import params
 import random, os, subprocess, csv, re
+from . import testar
 
 #https://stackoverflow.com/questions/431684/equivalent-of-shell-cd-command-to-change-the-working-directory
 class cd:
@@ -74,17 +75,20 @@ class testar_simple_strategy(base_ff):
         :return: The fitness of the evaluated individual.
         """
 
-        #write individual strategy to file
-        with open(params['STRATEGY_FILE'], 'w') as filetowrite:
-            filetowrite.write(ind.phenotype)
 
-        strategy_params = ['URL', 'STRATEGY_FILE', 'ACTIONS', 'PROTOCOL']
-        
-        #list all params to include in the command
-        for p in strategy_params:
-            os.environ[p] = str(params[p]) #add to environment variables
+        testar.call_testar(ind)
 
-        subprocess.call(['start_testar2.bat'], creationflags=subprocess.CREATE_NEW_CONSOLE)
+##        #write individual strategy to file
+##        with open(params['STRATEGY_FILE'], 'w') as filetowrite:
+##            filetowrite.write(ind.phenotype)
+##
+##        strategy_params = ['URL', 'STRATEGY_FILE', 'ACTIONS', 'PROTOCOL']
+##        
+##        #list all params to include in the command
+##        for p in strategy_params:
+##            os.environ[p] = str(params[p]) #add to environment variables
+##
+##        subprocess.call(['start_testar2.bat'], creationflags=subprocess.CREATE_NEW_CONSOLE)
 
         
         # path r'C:\Users\testar\Desktop\TESTAR_dev\testar\output'
@@ -99,22 +103,23 @@ class testar_simple_strategy(base_ff):
                             return fitness
             else: #parabank
                 #find folder second most recently modified (thus excluding temp folder)
-                folder = sorted([os.path.join(path,d) for d in os.listdir(path)], key=os.path.getmtime)[-2] 
-                with cd(folder):
-                    with open('log_filled_forms.txt') as file:
-                        for row in file:
-                            #print(row)
-                            if "total" in row:
-                                totalSubmits = int(re.search(r'\d+', row).group())
-                                #print(totalSubmits)
-                                failedSubmits = 0 #init variable
-                            else:
-                                integers = re.findall(r'\d+', row)
-                                #print(integers)
-                                if len(integers) > 1: #ensure header isn't included
-                                    failedSubmits = failedSubmits + int(integers[-1])
-                                    #print(failedSubmits)
-                fitness = (totalSubmits * 2) - failedSubmits
-                return fitness
-        return base_ff.default_fitness
-     
+                folder = sorted([os.path.join(path,d) for d in os.listdir(path)], key=os.path.getmtime)[-2]
+                try:
+                    with cd(folder):
+                        with open('log_filled_forms.txt') as file:
+                            for row in file:
+                                #print(row)
+                                if "total" in row:
+                                    totalSubmits = int(re.search(r'\d+', row).group())
+                                    #print(totalSubmits)
+                                    failedSubmits = 0 #init variable
+                                else:
+                                    integers = re.findall(r'\d+', row)
+                                    #print(integers)
+                                    if len(integers) > 1: #ensure header isn't included
+                                        failedSubmits = failedSubmits + int(integers[-1])
+                                        #print(failedSubmits)
+                    fitness = (totalSubmits * 2) - failedSubmits
+                    return fitness
+                except FileNotFoundError: #if file not found, default to standard fitness
+                    return base_ff.default_fitness

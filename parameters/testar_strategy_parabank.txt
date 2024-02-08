@@ -28,4 +28,4 @@ MUTATE_DUPLICATES:		True
 ACTIONS:				30
 PROTOCOL:				webdriver_parabank_strategy
 STRATEGY_FILE:			C:/Users/testar/Desktop/grammar_strategy.txt
-URL:					http://para.testar.org/
+SUT:					http://para.testar.org/

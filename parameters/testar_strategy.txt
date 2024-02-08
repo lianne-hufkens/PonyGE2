@@ -25,6 +25,7 @@ SELECTION:              nsga2_selection
 TOURNAMENT_SIZE:        2
 VERBOSE: 				True
 MUTATE_DUPLICATES:      True 
-STRATEGY_FILE:			C:/Users/testar/Desktop/grammar_strategy.txt
-URL:					https://webformsut.testar.org/forms/cb0cb1cb2cb3cb4cb5cb6cb7cb8cb9da3dt1emanf1nu0pasra0seateltextimurlusrwee
 ACTIONS:				30
+PROTOCOL:				webdriver_webformsut_strategy
+STRATEGY_FILE:			C:/Users/testar/Desktop/grammar_strategy.txt
+SUT:					https://webformsut.testar.org/forms/cb0cb1cb2cb3cb4cb5cb6cb7cb8cb9da3dt1emanf1nu0pasra0seateltextimurlusrwee
