@@ -18,7 +18,7 @@ class cd:
         os.chdir(self.savedPath)
 
 
-class testar_simple_strategy(base_ff):
+class testar_fitness_coverage(base_ff):
     """
     Basic fitness function template for writing new fitness functions. This
     basic template inherits from the base fitness function class, which
@@ -47,7 +47,7 @@ class testar_simple_strategy(base_ff):
     # Note that if fitness is being minimised, it is not necessary to
     # re-define/overwrite the maximise attribute here, as it already exists
     # in the base fitness function class.
-    maximise = False
+    maximise = True
 
     def __init__(self):
         """
@@ -88,25 +88,7 @@ class testar_simple_strategy(base_ff):
                         for row in reader:                
                             fitness = abs((int(row['actions executed']) / int(row['number of fields'])) * int(row['successful submit'] == 'yes') - 1)
                             return fitness
-            else: #parabank
-                #find folder second most recently modified (thus excluding temp folder)
-                folder = sorted([os.path.join(path,d) for d in os.listdir(path)], key=os.path.getmtime)[-2]
-                try:
-                    with cd(folder):
-                        with open('log_filled_forms.txt') as file:
-                            for row in file:
-                                #print(row)
-                                if "total" in row:
-                                    totalSubmits = int(re.search(r'\d+', row).group())
-                                    #print(totalSubmits)
-                                    failedSubmits = 0 #init variable
-                                else:
-                                    integers = re.findall(r'\d+', row)
-                                    #print(integers)
-                                    if len(integers) > 1: #ensure header isn't included
-                                        failedSubmits = failedSubmits + int(integers[-1])
-                                        #print(failedSubmits)
-                    fitness = (totalSubmits * 2) - failedSubmits
+
                     return fitness
                 except FileNotFoundError: #if file not found, default to standard fitness
                     return base_ff.default_fitness
